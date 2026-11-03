@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SuratKita</title>
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light;
+--bg:#f5f4ef;--card:#fff;--ink:#1f2328;--mute:#6b7280;--line:#dcdad2;--acc:#1d6b57;--acc-ink:#fff;--accsoft:#e3f1ec}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#16181a;--card:#1f2326;--ink:#ecebe6;--mute:#9aa0a6;--line:#343a3e;--acc:#4cc2a1;--acc-ink:#08231b;--accsoft:#1f3a33}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#16181a;--card:#1f2326;--ink:#ecebe6;--mute:#9aa0a6;--line:#343a3e;--acc:#4cc2a1;--acc-ink:#08231b;--accsoft:#1f3a33}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1200px;margin:0 auto;padding:20px 16px 48px}
+h1{font:700 26px/1.2 Georgia,"Times New Roman",serif;margin:0 0 4px}
+.sub{color:var(--mute);margin:0 0 18px}
+.tpls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:18px}
+.tpl{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;text-align:left;cursor:pointer;color:var(--ink);font:inherit}
+.tpl b{display:block;margin-bottom:2px}.tpl span{font-size:13px;color:var(--mute)}
+.tpl.on{border-color:var(--acc);background:var(--accsoft)}
+.grid{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+fieldset{border:0;margin:0 0 16px;padding:0}
+legend{font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--acc);margin-bottom:8px;padding:0}
+label{display:block;font-size:13px;color:var(--mute);margin:8px 0 3px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);outline-offset:-1px}
+textarea{resize:vertical;min-height:62px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:12px;color:var(--mute);margin-top:2px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:9px 14px;font:inherit;font-weight:600;cursor:pointer}
+.btn.p{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.side{position:sticky;top:12px}
+@media(max-width:860px){.side{position:static}}
+.paper{background:#fff;color:#111;border:1px solid var(--line);border-radius:4px;padding:36px 40px;font:14px/1.65 "Times New Roman",Georgia,serif;box-shadow:0 2px 12px rgba(0,0,0,.12);overflow-x:auto}
+.paper p{margin:0 0 14px;white-space:pre-line}
+.paper p.j{text-align:justify}
+.ph{background:#fff3c4;border-radius:3px}
+#msg{min-height:20px;font-size:13px;color:var(--acc);margin-left:2px;align-self:center}
+@media(max-width:520px){.paper{padding:22px 18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>✉️ SuratKita - Pembuat Surat Lamaran Kerja</h1>
+<p class="sub">Isi data di kiri, surat langsung tersusun di kanan. Pilih format, lalu unduh.</p>
+
+<div class="tpls" id="tpls"></div>
+
+<div class="grid">
+<div class="card" id="form">
+<fieldset><legend>Data diri</legend>
+<label for="nama">Nama lengkap</label><input id="nama" placeholder="Ahmad Subarjo">
+<div class="row"><div><label for="kota">Kota Anda</label><input id="kota" placeholder="Bandung"></div>
+<div><label for="telp">No. telepon</label><input id="telp" placeholder="0812-3456-7890"></div></div>
+<label for="email">Email</label><input id="email" type="email" placeholder="ahmad2219@email.com">
+</fieldset>
+
+<fieldset><legend>Lowongan yang dituju</legend>
+<label for="posisi">Posisi yang dilamar</label><input id="posisi" placeholder="Staf Pemasaran Digital">
+<label for="perusahaan">Nama perusahaan</label><input id="perusahaan" placeholder="PT Kreasi Nusantara Sejahtera">
+<div class="row"><div><label for="kotaP">Kota perusahaan</label><input id="kotaP" placeholder="Bandung"></div>
+<div><label for="sapaan">Ditujukan kepada</label><select id="sapaan"><option>HRD Manager</option><option>Bapak/Ibu Pimpinan</option><option>Tim Rekrutmen</option></select></div></div>
+<label for="sumber">Sumber info lowongan</label><input id="sumber" placeholder="LinkedIn / Jobstreet / situs perusahaan">
+</fieldset>
+
+<fieldset><legend>Pendidikan</legend>
+<div class="row"><div><label for="jenjang">Jenjang</label><select id="jenjang"><option>SMA/SMK</option><option>D3</option><option selected>S1</option><option>S2</option></select></div>
+<div><label for="tahun">Tahun lulus / semester</label><input id="tahun" placeholder="2025"></div></div>
+<label for="jurusan">Jurusan</label><input id="jurusan" placeholder="Ilmu Komunikasi">
+<label for="inst">Institusi</label><input id="inst" placeholder="Universitas Indonesia">
+<label for="ipk">IPK (opsional)</label><input id="ipk" placeholder="3,60">
+</fieldset>
+
+<fieldset><legend>Keahlian &amp; minat</legend>
+<label for="skills">Bidang keahlian</label><textarea id="skills" placeholder="content marketing, analisis data, Microsoft Office"></textarea>
+<div class="hint">Pisahkan dengan koma.</div>
+<label for="minat">Minat</label><textarea id="minat" placeholder="pemasaran digital, desain, penulisan kreatif"></textarea>
+<div class="hint">Pisahkan dengan koma.</div>
+</fieldset>
+
+<fieldset><legend>Pengalaman <small style="text-transform:none;letter-spacing:0">(opsional untuk fresh graduate)</small></legend>
+<div class="row"><div><label for="lama">Lama pengalaman</label><input id="lama" placeholder="3 tahun"></div>
+<div><label for="terakhir">Jabatan &amp; perusahaan terakhir</label><input id="terakhir" placeholder="Marketing Executive di PT ABC"></div></div>
+<label for="capaian">Pencapaian / organisasi / proyek</label><textarea id="capaian" placeholder="meningkatkan trafik situs sebesar 40% dalam 6 bulan"></textarea>
+</fieldset>
+
+<fieldset><legend>Tambahan</legend>
+<label for="motivasi">Alasan tertarik pada perusahaan (opsional)</label><textarea id="motivasi" placeholder="Saya mengagumi komitmen perusahaan pada inovasi produk lokal."></textarea>
+<label for="lampiran">Lampiran</label><textarea id="lampiran">Curriculum Vitae, Fotokopi ijazah dan transkrip nilai, Pas foto terbaru</textarea>
+<div class="hint">Pisahkan dengan koma.</div>
+</fieldset>
+</div>
+
+<div class="side">
+<div class="bar">
+<button class="btn p" id="bDocx">⬇ Unduh .docx</button>
+<button class="btn" id="bTxt">⬇ Unduh .txt</button>
+<button class="btn" id="bCopy">Salin teks</button>
+<span id="msg" role="status"></span>
+</div>
+<div class="paper" id="paper"></div>
+</div>
+</div>
+</div>
+
+<script>
+const TPL={
+ fresh:{n:"Fresh Graduate",d:"Untuk lulusan baru tanpa/minim pengalaman kerja."},
+ pro:{n:"Profesional",d:"Menonjolkan pengalaman & pencapaian kerja."},
+ switch:{n:"Ganti Karier",d:"Beralih bidang dengan keahlian yang relevan."},
+ intern:{n:"Magang",d:"Untuk mahasiswa yang melamar program magang."}
+};
+let cur="fresh";
+const ids=["nama","kota","telp","email","posisi","perusahaan","kotaP","sapaan","sumber","jenjang","tahun","jurusan","inst","ipk","skills","minat","lama","terakhir","capaian","motivasi","lampiran"];
+const $=i=>document.getElementById(i);
+const split=s=>(s||"").split(/[,\n]/).map(x=>x.trim()).filter(Boolean);
+const list=a=>a.length>1?a.slice(0,-1).join(", ")+" dan "+a[a.length-1]:(a[0]||"");
+const ph=(v,p)=>v&&v.trim()?v.trim():"["+p+"]";
+
+function build(){
+ const d={};ids.forEach(i=>d[i]=$(i).value);
+ const n=ph(d.nama,"Nama Lengkap"),pos=ph(d.posisi,"Posisi"),co=ph(d.perusahaan,"Nama Perusahaan");
+ const sk=list(split(d.skills))||"[bidang keahlian]",mi=list(split(d.minat))||"[minat]";
+ const edu=[d.jenjang,d.jurusan].filter(Boolean).join(" ")||"[pendidikan]";
+ const inst=ph(d.inst,"Institusi");
+ const src=d.sumber?`informasi lowongan yang saya peroleh dari ${d.sumber}`:"informasi lowongan yang saya peroleh";
+ const ipk=d.ipk?` dengan IPK ${d.ipk}`:"";
+ const lama=d.lama||"beberapa tahun";
+ const cap=d.capaian?d.capaian.trim().replace(/\.$/,""):"";
+ const att=split(d.lampiran);
+ const tgl=new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
+ const out=[];
+ out.push(`${d.kota||"[Kota]"}, ${tgl}`);
+ out.push(`Lampiran\t: ${att.length} berkas\nPerihal\t: Lamaran Pekerjaan – ${pos}`);
+ out.push(`Yth. ${d.sapaan}\n${co}\n${d.kotaP?"di "+d.kotaP:"di tempat"}`);
+ out.push("Dengan hormat,");
+ if(cur==="fresh"){
+  out.push(`Berdasarkan ${src}, ${co} sedang membuka kesempatan untuk posisi ${pos}. Sehubungan dengan hal tersebut, saya bermaksud mengajukan lamaran untuk posisi tersebut.`);
+  out.push(`Saya ${n}, lulusan ${edu} dari ${inst}${d.tahun?" tahun "+d.tahun:""}${ipk}. Selama masa studi, saya membekali diri dengan kemampuan di bidang ${sk}${cap?", dan saya juga memiliki pengalaman berupa "+cap:""}.`);
+  out.push(`Saya memiliki ketertarikan besar pada ${mi}, sehingga posisi ini sangat sejalan dengan arah karier yang ingin saya tempuh. Meskipun baru memulai karier profesional, saya cepat belajar, disiplin, dan siap bekerja baik dalam tim maupun mandiri.`);
+ }else if(cur==="pro"){
+  out.push(`Saya menulis surat ini untuk melamar posisi ${pos} di ${co}, sesuai ${src}. Latar belakang dan pengalaman saya sejalan dengan kebutuhan posisi tersebut.`);
+  out.push(`Saya memiliki pengalaman profesional selama ${lama}${d.terakhir?", terakhir sebagai "+d.terakhir:""}.${cap?" Di antara pencapaian saya: "+cap+".":""}`);
+  out.push(`Keahlian utama saya meliputi ${sk}. Saya berpendidikan ${edu} dari ${inst}${ipk}, dan memiliki minat mendalam pada ${mi}.`);
+ }else if(cur==="switch"){
+  out.push(`Dengan surat ini, saya mengajukan lamaran untuk posisi ${pos} di ${co}, sesuai ${src}.`);
+  out.push(`Saat ini saya memiliki pengalaman kerja selama ${lama}${d.terakhir?", terakhir sebagai "+d.terakhir:""}. Ketertarikan saya yang terus tumbuh pada ${mi} mendorong saya untuk beralih karier ke bidang ${pos}.`);
+  out.push(`Keterampilan yang dapat saya bawa ke posisi ini meliputi ${sk}${cap?", ditambah pengalaman "+cap:""}. Latar pendidikan saya adalah ${edu} dari ${inst}. Saya terbuka untuk terus belajar dan beradaptasi dengan cepat di lingkungan kerja yang baru.`);
+ }else{
+  out.push(`Saya ${n}, mahasiswa ${edu} di ${inst}${d.tahun?" ("+d.tahun+")":""}${ipk}. Melalui surat ini, saya mengajukan diri untuk mengikuti program magang pada posisi ${pos} di ${co}, sesuai ${src}.`);
+  out.push(`Di bangku kuliah, saya mempelajari dan mengembangkan kemampuan di bidang ${sk}${cap?", serta terlibat dalam "+cap:""}. Saya tertarik pada ${mi} dan ingin menerapkan ilmu yang saya peroleh dalam lingkungan kerja yang nyata.`);
+  out.push(`Saya siap belajar, menerima bimbingan, dan berkontribusi sebaik mungkin selama masa magang.`);
+ }
+ if(d.motivasi.trim())out.push(d.motivasi.trim());
+ if(cur!=="pro")out.push(`Saya yakin dapat memberikan kontribusi positif bagi ${co}.`);
+ else out.push(`Saya yakin kombinasi pengalaman, keahlian, dan etos kerja saya dapat memberikan kontribusi nyata bagi ${co}.`);
+ if(att.length)out.push("Sebagai bahan pertimbangan, bersama surat ini saya lampirkan:\n"+att.map((a,i)=>`${i+1}. ${a}`).join("\n"));
+ out.push("Besar harapan saya untuk dapat diberi kesempatan mengikuti proses seleksi lebih lanjut. Atas perhatian Bapak/Ibu, saya ucapkan terima kasih.");
+ out.push(`Hormat saya,\n\n\n\n${n}\n${[d.telp,d.email].filter(Boolean).join(" | ")}`.trim());
+ return out;
+}
+
+function render(){
+ const b=build();
+ $("paper").innerHTML=b.map(t=>{
+  const h=t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\[([^\]]+)\]/g,'<span class="ph">[$1]</span>');
+  return `<p class="${!t.includes("\n")&&t.length>80?"j":""}">${h}</p>`;
+ }).join("");
+}
+
+function fileBase(){return "Surat Lamaran - "+($("nama").value.trim()||"Pelamar")}
+function plain(){return build().join("\n\n").replace(/\t/g," ")}
+function say(t){const m=$("msg");m.textContent=t;clearTimeout(say.t);say.t=setTimeout(()=>m.textContent="",3500)}
+
+async function save(filename,data){
+ try{
+  const blob=data instanceof Blob?data:new Blob([data],{type:"text/plain;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download=filename;
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+  say("File diunduh ✓");
+ }catch(e){say("Gagal mengunduh. Coba “Salin teks”.")}
+}
+
+$("bTxt").onclick=()=>save(fileBase()+".txt",plain());
+$("bCopy").onclick=async()=>{
+ try{await navigator.clipboard.writeText(plain());say("Teks disalin ✓")}
+ catch(e){const r=document.createRange();r.selectNodeContents($("paper"));const s=getSelection();s.removeAllRanges();s.addRange(r);say("Teks dipilih, tekan Ctrl/Cmd+C")}
+};
+$("bDocx").onclick=async()=>{
+ if(!window.docx){say("Pustaka .docx gagal dimuat. Coba .txt atau salin teks.");return}
+ const {Document,Packer,Paragraph,TextRun,AlignmentType}=docx;
+ const kids=build().map(t=>{
+  const lines=t.split("\n");
+  return new Paragraph({
+   alignment:(lines.length===1&&t.length>80)?AlignmentType.JUSTIFIED:AlignmentType.LEFT,
+   spacing:{after:200,line:300},
+   children:lines.map((l,i)=>new TextRun({text:l,break:i?1:0,font:"Times New Roman",size:24}))
+  });
+ });
+ const doc=new Document({sections:[{properties:{page:{size:{width:11906,height:16838},margin:{top:1440,bottom:1440,left:1440,right:1440}}},children:kids}]});
+ const blob=await Packer.toBlob(doc);
+ save(fileBase()+".docx",blob);
+};
+
+function drawTpls(){
+ $("tpls").innerHTML=Object.entries(TPL).map(([k,v])=>`<button class="tpl ${k===cur?"on":""}" data-k="${k}"><b>${v.n}</b><span>${v.d}</span></button>`).join("");
+ document.querySelectorAll(".tpl").forEach(b=>b.onclick=()=>{cur=b.dataset.k;drawTpls();render()});
+}
+ids.forEach(i=>$(i).addEventListener("input",render));
+drawTpls();render();
+</script>
+</body>
+</html>
